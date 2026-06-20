@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CarbonMirror AI — See the future impact of today's choices</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --g:#1B6B3A;--g2:#2D8A4E;--gm:#4DB87A;--gl:#E6F5ED;--gl2:#C8EDD6;
+  --am:#D97706;--al:#FEF3C7;--rd:#DC2626;--rl:#FEE2E2;
+  --bg:#F2F7F4;--sf:#FFF;--sf2:#F7FAF8;--bd:#D0E8DA;
+  --tx:#152920;--tx2:#3D5E4A;--tx3:#7A9A88;
+  --r:14px;--rs:8px;--sh:0 2px 16px rgba(27,107,58,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+nav{background:var(--sf);border-bottom:1.5px solid var(--bd);position:sticky;top:0;z-index:200;}
+.nav-inner{max-width:1120px;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:58px;}
+.logo{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--g);display:flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none;}
+.logo-icon{width:30px;height:30px;background:var(--g);border-radius:50% 50% 50% 8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;}
+.nav-tabs button{background:none;border:none;cursor:pointer;padding:7px 13px;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--tx2);transition:all .15s;font-family:'Inter',sans-serif;white-space:nowrap;}
+.nav-tabs button.active,.nav-tabs button:hover{background:var(--gl);color:var(--g);}
+.level-badge{background:var(--gl);color:var(--g);font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;cursor:default;}
+.wrap{max-width:1120px;margin:auto;padding:28px 20px;}
+.page{display:none;}.page.active{display:block;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--g) 0%,#0F4A28 100%);border-radius:20px;padding:44px 48px;color:#fff;margin-bottom:28px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-80px;top:-80px;width:320px;height:320px;background:rgba(255,255,255,.04);border-radius:50%;pointer-events:none;}
+.hero-tag{font-size:12px;font-weight:600;background:rgba(255,255,255,.15);padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:14px;}
+.hero h1{font-family:'Sora',sans-serif;font-size:34px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+.hero p{font-size:15px;opacity:.82;max-width:480px;line-height:1.65;margin-bottom:24px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{padding:11px 22px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:6px;}
+.btn-white{background:#fff;color:var(--g);}.btn-white:hover{background:#E6F5ED;transform:translateY(-1px);}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.3);}.btn-ghost:hover{background:rgba(255,255,255,.22);}
+.btn-green{background:var(--g);color:#fff;}.btn-green:hover{background:#0F4A28;}
+.btn-outline{background:var(--sf);color:var(--g);border:1.5px solid var(--bd);}.btn-outline:hover{border-color:var(--g);background:var(--gl);}
+.btn-sm{padding:7px 14px;font-size:12px;}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px;position:relative;z-index:1;}
+.h-stat{background:rgba(255,255,255,.1);border-radius:10px;padding:14px 16px;}
+.h-stat .v{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;}
+.h-stat .l{font-size:11px;opacity:.75;margin-top:2px;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-bottom:20px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px;}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px;}
+
+/* CARDS */
+.card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:22px;box-shadow:var(--sh);}
+.card-sm{background:var(--sf);border-radius:var(--rs);border:1px solid var(--bd);padding:14px;}
+.scard{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:18px;}
+.scard .sl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:6px;}
+.scard .sv{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;}
+.scard .ss{font-size:12px;color:var(--tx3);margin-top:3px;}
+.scard .st{font-size:12px;font-weight:600;margin-top:6px;color:var(--g);}
+
+/* SECTION */
+.sec-title{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.sec-sub{font-size:13px;color:var(--tx3);margin-bottom:18px;}
+
+/* CALCULATOR */
+.calc-block{margin-bottom:22px;}
+.calc-block h3{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.ir{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.ig{display:flex;flex-direction:column;gap:5px;}
+.ig label{font-size:12px;color:var(--tx2);font-weight:500;}
+.ig select,.ig input{padding:9px 12px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--sf2);font-size:13px;color:var(--tx);font-family:'Inter',sans-serif;outline:none;transition:border .15s;}
+.ig select:focus,.ig input:focus{border-color:var(--g);}
+.result-box{background:linear-gradient(135deg,var(--g),#0F4A28);color:#fff;border-radius:var(--r);padding:24px;text-align:center;}
+.result-box .rv{font-family:'Sora',sans-serif;font-size:56px;font-weight:800;line-height:1;}
+.result-box .ru{font-size:14px;opacity:.75;margin-top:4px;}
+.result-box .rg{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;padding:5px 18px;font-size:13px;margin-top:10px;font-weight:600;}
+.cm-score-wrap{background:rgba(255,255,255,.12);border-radius:10px;padding:14px 16px;margin-top:14px;text-align:center;}
+.cm-score-val{font-family:'Sora',sans-serif;font-size:36px;font-weight:800;}
+.cm-score-sub{font-size:11px;opacity:.75;margin-top:2px;}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bar-lbl{font-size:12px;color:var(--tx2);width:110px;flex-shrink:0;}
+.bar-track{flex:1;height:8px;background:var(--bd);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.bar-val{font-size:12px;font-weight:600;width:50px;text-align:right;}
+
+/* CARBON TWIN */
+.twin-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.twin-card{border-radius:var(--r);padding:20px;text-align:center;border:2px solid;}
+.twin-now{background:#FEF2F2;border-color:#FCA5A5;}
+.twin-future{background:#F0FDF4;border-color:#86EFAC;}
+.twin-val{font-family:'Sora',sans-serif;font-size:38px;font-weight:800;}
+.twin-savings{background:var(--gl);border-radius:10px;padding:14px 16px;margin-top:14px;text-align:center;}
+
+/* ROADMAP */
+.roadmap-week{margin-bottom:16px;}
+.roadmap-week h4{font-size:13px;font-weight:600;color:var(--g);margin-bottom:8px;padding-left:12px;border-left:3px solid var(--gm);}
+.roadmap-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);}
+.roadmap-item:last-child{border-bottom:none;}
+.r-dot{width:7px;height:7px;border-radius:50%;background:var(--gm);flex-shrink:0;margin-top:5px;}
+.r-text{font-size:12px;color:var(--tx2);line-height:1.5;flex:1;}
+.r-save{font-size:11px;font-weight:600;color:var(--g);background:var(--gl);padding:2px 8px;border-radius:10px;white-space:nowrap;}
+
+/* CHAT */
+.chat-wrap{display:flex;flex-direction:column;height:420px;}
+.chat-msgs{flex:1;overflow-y:auto;padding:0 0 12px;display:flex;flex-direction:column;gap:10px;}
+.msg{max-width:85%;padding:11px 15px;border-radius:14px;font-size:13px;line-height:1.65;}
+.msg-ai{background:var(--gl);color:var(--tx);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg-user{background:var(--g);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg-err{background:var(--rl);color:var(--rd);}
+.typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--g);animation:typing .8s infinite;}
+.typing-dot:nth-child(2){animation-delay:.15s;}
+.typing-dot:nth-child(3){animation-delay:.3s;}
+@keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-input{display:flex;gap:8px;margin-top:10px;}
+.chat-input input{flex:1;padding:10px 14px;border-radius:var(--rs);border:1.5px solid var(--bd);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border .15s;}
+.chat-input input:focus{border-color:var(--g);}
+.chat-sugs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.sug-btn{background:var(--gl);color:var(--g);border:none;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.sug-btn:hover{background:var(--gl2);}
+
+/* BADGES */
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+.badge-item{background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center;transition:all .15s;}
+.badge-item.earned{border-color:var(--gm);background:var(--gl);box-shadow:0 2px 12px rgba(77,184,122,.2);}
+.badge-item .bi{font-size:30px;margin-bottom:8px;}
+.badge-item .bn{font-size:12px;font-weight:600;color:var(--tx);}
+.badge-item .bd2{font-size:11px;color:var(--tx3);margin-top:3px;}
+.badge-item.locked .bi{filter:grayscale(1);opacity:.4;}
+.badge-item.locked .bn,.badge-item.locked .bd2{color:var(--tx3);}
+.xp-bar-wrap{background:var(--bd);border-radius:4px;height:10px;overflow:hidden;margin:6px 0;}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--gm),var(--g));border-radius:4px;transition:width .8s;}
+.level-card{background:linear-gradient(135deg,var(--g),#0F4A28);color:#fff;border-radius:var(--r);padding:22px;margin-bottom:20px;}
+
+/* CHALLENGES */
+.ch-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:18px;}
+.ch-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.badge2{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.b-green{background:var(--gl);color:var(--g);}.b-amber{background:var(--al);color:var(--am);}.b-red{background:var(--rl);color:var(--rd);}
+.prog-track{height:6px;background:var(--bd);border-radius:3px;margin:8px 0;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gm);border-radius:3px;transition:width .5s;}
+.ch-btn{padding:7px 14px;border-radius:6px;border:none;background:var(--g);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;}
+.ch-btn:hover{background:#0F4A28;}
+.ch-btn:disabled{background:var(--bd);color:var(--tx3);cursor:default;}
+
+/* LOG FORM */
+.log-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:18px;}
+.log-tbl{width:100%;border-collapse:collapse;}
+.log-tbl th{text-align:left;font-size:11px;font-weight:600;color:var(--tx3);padding:7px 12px;border-bottom:1px solid var(--bd);text-transform:uppercase;letter-spacing:.05em;}
+.log-tbl td{padding:10px 12px;border-bottom:1px solid var(--bd);font-size:13px;}
+.log-tbl tr:last-child td{border-bottom:none;}
+
+/* LEADERBOARD */
+.lb-row{display:flex;align-items:center;gap:14px;padding:13px 16px;border-bottom:1px solid var(--bd);transition:background .15s;border-radius:var(--rs);}
+.lb-row:hover{background:var(--sf2);}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;width:28px;text-align:center;}
+.lb-avatar{width:38px;height:38px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--g);flex-shrink:0;}
+.lb-name{flex:1;font-weight:500;font-size:14px;}
+.lb-score{font-family:'Sora',sans-serif;font-weight:700;color:var(--g);font-size:14px;}
+
+/* TIPS */
+.tip-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:18px;display:flex;gap:14px;align-items:flex-start;transition:all .2s;cursor:pointer;}
+.tip-card:hover{border-color:var(--gm);transform:translateY(-2px);box-shadow:0 6px 20px rgba(27,107,58,.12);}
+.tip-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.tip-icon.green{background:var(--gl);}.tip-icon.amber{background:var(--al);}
+.tip-impact{font-size:11px;font-weight:600;color:var(--g);background:var(--gl);padding:2px 9px;border-radius:10px;display:inline-block;margin-top:6px;}
+
+/* INSIGHTS */
+.ins-card{border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid;}
+.ins-green{background:var(--gl);border-color:var(--gm);}
+.ins-amber{background:var(--al);border-color:#FCD34D;}
+.ins-blue{background:#EFF6FF;border-color:#93C5FD;}
+
+/* CHARTS */
+.ch-wrap{position:relative;width:100%;height:220px;margin-top:14px;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{background:var(--sf);border-radius:20px;max-width:560px;width:100%;padding:28px;max-height:90vh;overflow-y:auto;position:relative;}
+.modal h3{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:14px;}
+.modal-close{position:absolute;top:20px;right:20px;background:var(--sf2);border:1.5px solid var(--bd);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--tx);color:#fff;padding:13px 18px;border-radius:var(--rs);font-size:13px;font-weight:500;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:300px;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* AI STATUS */
+.ai-status{display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:10px;padding:6px 12px;border-radius:20px;width:fit-content;}
+.ai-status.live{background:var(--gl);color:var(--g);}
+.ai-status.offline{background:var(--al);color:var(--am);}
+.ai-dot{width:7px;height:7px;border-radius:50%;}
+.ai-dot.green{background:var(--gm);}
+.ai-dot.amber{background:var(--am);}
+
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px;}
+@media(max-width:640px){
+  .hero{padding:24px 18px;}.hero h1{font-size:24px;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
+  .ir{grid-template-columns:1fr;}
+  .log-form{grid-template-columns:1fr 1fr;}
+  .twin-wrap{grid-template-columns:1fr;}
+  .nav-tabs button{padding:7px 9px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home',0)">
+      <div class="logo-icon">🌿</div>
+      CarbonMirror<span style="color:var(--gm)"> AI</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="active" onclick="showPage('home',0)">Home</button>
+      <button onclick="showPage('calculator',1)">Calculator</button>
+      <button onclick="showPage('tracker',2)">Tracker</button>
+      <button onclick="showPage('ai',3)">AI Coach ✨</button>
+      <button onclick="showPage('tips',4)">Tips</button>
+      <button onclick="showPage('community',5)">Community</button>
+    </div>
+    <div class="nav-right">
+      <div class="level-badge" id="nav-level">🌱 Beginner · 0 XP</div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-tag">🇮🇳 India-Calibrated Carbon Intelligence</div>
+    <h1>See the future impact<br>of today's choices</h1>
+    <p>Your personal AI sustainability coach — tracks your footprint with India-specific data, shows your Carbon Twin future, and guides real reductions.</p>
+    <div class="hero-cta">
+      <button class="btn btn-white" onclick="showPage('calculator',1)">Calculate My Footprint</button>
+      <button class="btn btn-ghost" onclick="showPage('ai',3)">Ask AI Coach ✨</button>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="v" id="h-days">0</div><div class="l">Days Tracked</div></div>
+      <div class="h-stat"><div class="v" id="h-saved">0 kg</div><div class="l">CO₂ Saved</div></div>
+      <div class="h-stat"><div class="v" id="h-streak">0🔥</div><div class="l">Day Streak</div></div>
+      <div class="h-stat"><div class="v" id="h-score">0</div><div class="l">Eco Score</div></div>
+    </div>
+  </div>
+  <div class="g4">
+    <div class="scard"><div class="sl">This Month</div><div class="sv" id="s-month">—</div><div class="ss">kg CO₂e logged</div><div class="st" id="s-month-t">Start tracking</div></div>
+    <div class="scard"><div class="sl">Annual Pace</div><div class="sv" id="s-annual">—</div><div class="ss">tonnes CO₂e / year</div><div class="st">India avg: 1.9t</div></div>
+    <div class="scard"><div class="sl">Eco Actions</div><div class="sv" id="s-actions">0</div><div class="ss">positive actions</div><div class="st" id="s-actions-t">Log to track</div></div>
+    <div class="scard"><div class="sl">Level</div><div class="sv" id="s-level">🌱</div><div class="ss" id="s-level-name">Beginner</div><div class="st" id="s-xp-disp">0 / 500 XP</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px;">Monthly Emissions Trend</div>
+      <div style="font-size:12px;color:var(--tx3);">Your CO₂ over 6 months (kg)</div>
+      <div class="ch-wrap"><canvas id="trendChart" role="img" aria-label="Monthly CO2 trend line chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px;">Footprint Breakdown</div>
+      <div style="font-size:12px;color:var(--tx3);">Sources of your carbon</div>
+      <div class="ch-wrap"><canvas id="donutChart" role="img" aria-label="Carbon source breakdown donut chart"></canvas></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;" id="donut-legend"></div>
+    </div>
+  </div>
+  <div style="margin-bottom:12px"><div class="sec-title">Personalised Insights</div><div class="sec-sub">Based on your profile and India emission benchmarks</div></div>
+  <div id="home-insights"></div>
+</div>
+
+<!-- CALCULATOR PAGE -->
+<div id="page-calculator" class="page">
+  <div class="sec-title">India Carbon Footprint Calculator</div>
+  <div class="sec-sub">Calibrated with India-specific emission factors — CEA grid data, MoEFCC 2024, IPCC AR6</div>
+  <div class="g2" style="grid-template-columns:1.1fr 0.9fr;">
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="calc-block">
+          <h3>🚗 Transport <span style="font-size:11px;font-weight:400;color:var(--tx3);">India transport modes</span></h3>
+          <div class="ir">
+            <div class="ig"><label>Primary vehicle type</label>
+              <select id="vehicle" onchange="calc()">
+                <option value="0">🚶 Walk / No vehicle</option>
+                <option value="30">🛵 Petrol two-wheeler</option>
+                <option value="15">⚡ Electric scooter (Ola/Ather/TVS)</option>
+                <option value="90">🚗 Petrol car — small</option>
+                <option value="120">🚗 Petrol car — mid/large</option>
+                <option value="70">🚗 CNG car</option>
+                <option value="40">🚗 Electric car</option>
+                <option value="80">🚕 Taxi / Cab (Ola/Uber)</option>
+              </select>
+            </div>
+            <div class="ig"><label>Km driven per week</label><input type="number" id="km" value="80" min="0" max="1500" onchange="calc()"/></div>
+          </div>
+          <div class="ir">
+            <div class="ig"><label>Auto-rickshaw rides / week</label><input type="number" id="auto" value="3" min="0" max="50" onchange="calc()"/></div>
+            <div class="ig"><label>Metro / train days / week</label><input type="number" id="metro" value="2" min="0" max="7" onchange="calc()"/></div>
+          </div>
+          <div class="ir">
+            <div class="ig"><label>Domestic flights / year</label><input type="number" id="fdom" value="2" min="0" max="50" onchange="calc()"/></div>
+            <div class="ig"><label>International flights / year</label><input type="number" id="fint" value="0" min="0" max="20" onchange="calc()"/></div>
+          </div>
+        </div>
+        <div class="calc-block">
+          <h3>🏠 Home Energy <span style="font-size:11px;font-weight:400;color:var(--tx3);">State grid intensity</span></h3>
+          <div class="ir">
+            <div class="ig"><label>Your state / DISCOM zone</label>
+              <select id="state" onchange="calc()">
+                <option value="0.82" selected>Telangana / AP (TSSPDCL)</option>
+                <option value="0.71">Karnataka (BESCOM)</option>
+                <option value="0.78">Tamil Nadu (TANGEDCO)</option>
+                <option value="0.92">Maharashtra (MSEDCL)</option>
+                <option value="0.95">Delhi (BSES/TPDDL)</option>
+                <option value="0.88">UP / Rajasthan</option>
+                <option value="0.64">Himachal Pradesh</option>
+                <option value="0.73">Gujarat (UGVCL)</option>
+                <option value="0.85">West Bengal (CESC)</option>
+                <option value="0.50">Kerala (KSEB)</option>
+              </select>
+            </div>
+            <div class="ig"><label>Monthly electricity usage (kWh)</label><input type="number" id="kwh" value="180" min="0" max="2000" onchange="calc()"/></div>
+          </div>
+          <div class="ir">
+            <div class="ig"><label>Cooking fuel</label>
+              <select id="fuel" onchange="calc()">
+                <option value="0.08" selected>LPG cylinder / month</option>
+                <option value="0.15">PNG piped gas</option>
+                <option value="0.01">Induction / electric only</option>
+                <option value="0.30">Kerosene / firewood</option>
+              </select>
+            </div>
+            <div class="ig"><label>Home size</label>
+              <select id="hsize" onchange="calc()">
+                <option value="0.7">1 BHK / small flat</option>
+                <option value="1.0" selected>2 BHK / medium</option>
+                <option value="1.4">3 BHK / large</option>
+                <option value="1.8">Villa / independent house</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="calc-block">
+          <h3>🥗 Food &amp; Diet</h3>
+          <div class="ir">
+            <div class="ig"><label>Diet pattern</label>
+              <select id="diet" onchange="calc()">
+                <option value="0.40">🌱 Vegan</option>
+                <option value="0.70" selected>🥗 South Indian vegetarian</option>
+                <option value="0.85">🥦 North Indian vegetarian</option>
+                <option value="1.20">🍗 Chicken / fish — moderate</option>
+                <option value="1.60">🥩 Mutton / beef — regular</option>
+                <option value="1.90">🥩 High meat daily</option>
+              </select>
+            </div>
+            <div class="ig"><label>Food sourcing</label>
+              <select id="foodsrc" onchange="calc()">
+                <option value="1.00">Mostly imported / packaged</option>
+                <option value="0.85" selected>Mix local &amp; packaged</option>
+                <option value="0.65">Mostly local sabzi mandi</option>
+                <option value="0.50">Home-grown / organic</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="calc-block" style="margin-bottom:0">
+          <h3>🛍️ Shopping &amp; Consumption</h3>
+          <div class="ir">
+            <div class="ig"><label>Clothing items per year</label>
+              <select id="cloth" onchange="calc()">
+                <option value="0.15">Minimal (under 5 items)</option>
+                <option value="0.45" selected>Moderate (5–15 items)</option>
+                <option value="0.90">High (15–30 items)</option>
+                <option value="1.50">Very high (30+ items)</option>
+              </select>
+            </div>
+            <div class="ig"><label>New electronics per year</label>
+              <select id="elec" onchange="calc()">
+                <option value="0.05">None — repair &amp; reuse</option>
+                <option value="0.30" selected>1 device</option>
+                <option value="0.65">2–3 devices</option>
+                <option value="1.20">4+ devices</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="result-box" id="result-box">
+        <div style="font-size:12px;opacity:.7;margin-bottom:8px;font-weight:500;">ESTIMATED ANNUAL FOOTPRINT</div>
+        <div class="rv" id="r-total">2.1</div>
+        <div class="ru">tonnes CO₂e per year</div>
+        <div class="rg" id="r-grade">Near India average 🌿</div>
+        <div class="cm-score-wrap">
+          <div style="font-size:11px;opacity:.7;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;">CarbonMirror Score</div>
+          <div class="cm-score-val" id="cm-score">—</div>
+          <div class="cm-score-sub" id="cm-score-pct">out of 100</div>
+        </div>
+        <div style="font-size:11px;opacity:.55;margin-top:12px;">India avg: 1.9t · World avg: 4.7t · Paris target: 2.0t</div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:14px;">Category Breakdown</div>
+        <div id="breakdown-bars"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:2px;">🪞 Carbon Twin — 5-Year Projection</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:4px;">Current habits vs. following the reduction plan</div>
+        <div class="twin-wrap">
+          <div class="twin-card twin-now">
+            <div style="font-size:12px;font-weight:600;color:#DC2626;margin-bottom:8px;">Current Path 🌫️</div>
+            <div class="twin-val" style="color:#DC2626;" id="twin-bad">—</div>
+            <div style="font-size:11px;color:#999;margin-top:4px;">tonnes CO₂ (5 yrs)</div>
+            <div style="font-size:11px;color:#DC2626;margin-top:8px;font-weight:500;" id="twin-bad-eq">—</div>
+          </div>
+          <div class="twin-card twin-future">
+            <div style="font-size:12px;font-weight:600;color:var(--g);margin-bottom:8px;">Green Path 🌱</div>
+            <div class="twin-val" style="color:var(--g);" id="twin-good">—</div>
+            <div style="font-size:11px;color:#999;margin-top:4px;">tonnes CO₂ (5 yrs)</div>
+            <div style="font-size:11px;color:var(--g);margin-top:8px;font-weight:500;" id="twin-good-eq">—</div>
+          </div>
+        </div>
+        <div class="twin-savings" id="twin-savings"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-size:14px;font-weight:600;">📅 30-Day Reduction Roadmap</div>
+          <button class="btn btn-outline btn-sm" onclick="downloadReport()">⬇ PDF Report</button>
+        </div>
+        <div id="roadmap"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:10px;">🎯 Top Actions For Your Profile</div>
+        <div id="pers-tips"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACKER PAGE -->
+<div id="page-tracker" class="page">
+  <div class="sec-title">Activity Tracker &amp; Challenges</div>
+  <div class="sec-sub">Log daily actions, earn XP, complete challenges, and unlock badges</div>
+  <div class="level-card" style="margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div>
+        <div style="font-size:12px;opacity:.75;margin-bottom:3px;">YOUR LEVEL</div>
+        <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;" id="lvl-name">🌱 Beginner</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;" id="lvl-xp">0 XP</div>
+        <div style="font-size:11px;opacity:.7;" id="lvl-next">500 XP to next level</div>
+      </div>
+    </div>
+    <div class="xp-bar-wrap" style="background:rgba(255,255,255,.2);">
+      <div class="xp-bar" id="xp-bar" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:18px;">
+    <div style="font-size:14px;font-weight:600;margin-bottom:14px;">Log an Activity</div>
+    <div class="log-form">
+      <div class="ig"><label>Category</label>
+        <select id="lcat" onchange="updateActs()">
+          <option value="transport">🚗 Transport</option>
+          <option value="food">🥗 Food</option>
+          <option value="energy">💡 Energy</option>
+          <option value="shopping">🛍️ Shopping</option>
+          <option value="positive">🌱 Eco Action</option>
+        </select>
+      </div>
+      <div class="ig"><label>Activity</label><select id="lact"></select></div>
+      <div class="ig"><label>Date</label><input type="date" id="ldate"/></div>
+      <div style="display:flex;align-items:flex-end;"><button class="btn btn-green" onclick="logAct()">+ Log</button></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px;">This Week</div>
+      <div style="font-size:12px;color:var(--tx3);">Daily CO₂ logged (kg)</div>
+      <div class="ch-wrap" style="height:200px;"><canvas id="weekChart" role="img" aria-label="Weekly CO2 bar chart"></canvas></div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px;">Recent Logs</div>
+      <div style="overflow-x:auto;">
+        <table class="log-tbl"><thead><tr><th>Activity</th><th>Date</th><th>CO₂</th><th>XP</th></tr></thead>
+        <tbody id="log-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+  <div style="margin:20px 0 10px;"><div class="sec-title" style="font-size:18px;">Achievements &amp; Badges</div></div>
+  <div class="badge-grid" id="badge-grid"></div>
+  <div style="margin:24px 0 10px;"><div class="sec-title" style="font-size:18px;">Weekly Challenges</div></div>
+  <div class="g3" id="ch-grid"></div>
+</div>
+
+<!-- AI COACH PAGE -->
+<div id="page-ai" class="page">
+  <div class="sec-title">AI Carbon Coach</div>
+  <div class="sec-sub">AI-powered sustainability coaching with intelligent recommendation engine and offline fallback support</div>
+  <div class="g2">
+    <div class="card">
+      <div id="ai-status-bar"></div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Ask EcoGPT</div>
+      <div class="chat-sugs" id="chat-sugs"></div>
+      <div class="chat-wrap">
+        <div class="chat-msgs" id="chat-msgs"></div>
+        <div class="chat-input">
+          <input type="text" id="chat-in" placeholder="Ask about your carbon footprint…" onkeydown="if(event.key==='Enter')sendMsg()"/>
+          <button class="btn btn-green" onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:12px;">Your Carbon Profile</div>
+        <div id="ai-profile"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:10px;">Quick Questions</div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="quick-actions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS PAGE -->
+<div id="page-tips" class="page">
+  <div class="sec-title">Action Tips &amp; Guides</div>
+  <div class="sec-sub">Evidence-based actions ranked by CO₂ saving — India-specific context</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;" id="tip-filters"></div>
+  <div id="tips-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;"></div>
+</div>
+
+<!-- COMMUNITY PAGE -->
+<div id="page-community" class="page">
+  <div class="sec-title">Community &amp; Leaderboard</div>
+  <div class="sec-sub">India's growing community of climate-conscious individuals</div>
+  <div class="g2">
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:4px;">Top Eco Warriors — June 2025</div>
+      <div style="font-size:12px;color:var(--tx3);margin-bottom:14px;">Ranked by kg CO₂ saved vs. baseline</div>
+      <div id="leaderboard"></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:14px;">🌍 India Impact Counter</div>
+        <div class="g2" style="gap:10px;">
+          <div class="card-sm" style="text-align:center;"><div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:var(--g);" id="imp-kg">2,847</div><div style="font-size:11px;color:var(--tx3);">kg CO₂ saved today</div></div>
+          <div class="card-sm" style="text-align:center;"><div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:var(--g);" id="imp-us">1,243</div><div style="font-size:11px;color:var(--tx3);">active users this month</div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:14px;">Community Feed</div>
+        <div id="comm-feed"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;margin-bottom:12px;">India vs World (tonnes CO₂/person/yr)</div>
+        <div class="ch-wrap" style="height:200px;"><canvas id="indiaChart" role="img" aria-label="India vs world CO2 comparison chart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="toast" id="toast"></div>
+
+<!-- PDF REPORT MODAL -->
+<div id="pdf-modal" style="display:none;" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('pdf-modal').style.display='none'">✕</button>
+    <h3>📄 Sustainability Report</h3>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Your personal carbon footprint report — download as PDF or copy to share.</p>
+    <div id="report-content" style="font-size:12px;line-height:1.8;color:var(--tx2);background:var(--sf2);padding:16px;border-radius:var(--rs);max-height:360px;overflow-y:auto;border:1px solid var(--bd);white-space:pre-wrap;font-family:monospace;"></div>
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <button class="btn btn-green" onclick="doPrint()">⬇ Download PDF</button>
+      <button class="btn btn-outline" onclick="copyReport()">📋 Copy Text</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+var S = JSON.parse(localStorage.getItem('cm_state')||'null') || {
+  xp:0, streak:0, daysLogged:0, actionsCount:0,
+  log:[],
+  challenges:[
+    {title:'Car-Free Week',desc:'Use public transport or cycle every day for a week',icon:'🚲',prog:0,total:7,diff:'Medium',xp:150},
+    {title:'Meat-Free Days',desc:'Eat only vegetarian for 5 days this week',icon:'🥗',prog:0,total:5,diff:'Easy',xp:100},
+    {title:'Energy Audit',desc:'Check your home for energy-saving opportunities',icon:'💡',prog:0,total:1,diff:'Easy',xp:80},
+    {title:'Zero Plastic Day',desc:'Avoid all single-use plastic for 3 full days',icon:'♻️',prog:0,total:3,diff:'Hard',xp:200},
+    {title:'Walk 30 min/day',desc:'Walk instead of driving for all short trips daily',icon:'🚶',prog:0,total:7,diff:'Easy',xp:100},
+    {title:'Cold Wash Week',desc:'Wash laundry at 30°C all week — saves heating energy',icon:'🌊',prog:0,total:7,diff:'Easy',xp:80},
+  ],
+  footprint:{total:2.1,transport:0.8,home:0.7,food:0.4,shop:0.2}
+};
+
+var LEVELS = [
+  {name:'🌱 Beginner',     label:'Beginner',        max:500},
+  {name:'🌿 Green Warrior', label:'Green Warrior',   max:1200},
+  {name:'🌳 Earth Guardian',label:'Earth Guardian',  max:2500},
+  {name:'🏆 Climate Champion',label:'Climate Champion', max:5000},
+  {name:'⭐ Eco Legend',   label:'Eco Legend',       max:Infinity},
+];
+
+var BADGES = [
+  {id:'first_log',  icon:'📝',name:'First Log',     desc:'Log your first activity',        cond:function(s){return s.log.length>=1;}},
+  {id:'week_streak',icon:'🔥',name:'7-Day Streak',  desc:'7 consecutive days tracked',     cond:function(s){return s.streak>=7;}},
+  {id:'low_carbon', icon:'🌱',name:'Low Carbon',     desc:'Footprint below 1.5t/year',      cond:function(s){return s.footprint.total<1.5;}},
+  {id:'challenge_1',icon:'🎯',name:'Challenger',     desc:'Complete any challenge',         cond:function(s){return s.challenges.some(function(c){return c.prog>=c.total;});}},
+  {id:'eco_100',    icon:'💪',name:'100 XP Club',    desc:'Earn 100 XP total',              cond:function(s){return s.xp>=100;}},
+  {id:'veg_hero',   icon:'🥗',name:'Veg Hero',       desc:'Log 10 vegetarian meals',        cond:function(s){return s.log.filter(function(l){return l.act.toLowerCase().indexOf('veg')>=0||l.act.toLowerCase().indexOf('thali')>=0;}).length>=10;}},
+  {id:'cycle_champ',icon:'🚴',name:'Cycle Champ',    desc:'Log 10 cycling trips',           cond:function(s){return s.log.filter(function(l){return l.act.toLowerCase().indexOf('cycl')>=0;}).length>=10;}},
+  {id:'energy_star',icon:'⚡',name:'Energy Star',    desc:'Log 8 solar or eco-energy days', cond:function(s){return s.log.filter(function(l){return l.co2<0;}).length>=8;}},
+];
+
+var ACT_MAP = {
+  transport:[
+    {label:'Two-wheeler trip (10km)',           co2:30,  xp:5},
+    {label:'Car trip (30km)',                    co2:90,  xp:5},
+    {label:'Metro / train commute',              co2:5,   xp:15},
+    {label:'Auto-rickshaw ride (5km)',           co2:20,  xp:8},
+    {label:'Bus journey',                        co2:12,  xp:15},
+    {label:'Cycling to work (eco ✓)',            co2:-10, xp:25},
+    {label:'Walked instead of driving (eco ✓)', co2:-15, xp:20},
+    {label:'Domestic flight',                    co2:250, xp:0},
+  ],
+  food:[
+    {label:'Vegetarian meal (eco ✓)',            co2:5,   xp:20},
+    {label:'South Indian thali (eco ✓)',         co2:8,   xp:15},
+    {label:'Chicken / fish meal',                co2:40,  xp:5},
+    {label:'Mutton / beef meal',                 co2:80,  xp:0},
+    {label:'Shopped at local mandi (eco ✓)',     co2:-5,  xp:20},
+  ],
+  energy:[
+    {label:'AC running all day',                 co2:25,  xp:0},
+    {label:'Used LED bulbs (eco ✓)',             co2:-3,  xp:10},
+    {label:'Solar power day (eco ✓)',            co2:-20, xp:30},
+    {label:'Fan instead of AC (eco ✓)',          co2:-8,  xp:15},
+    {label:'5-min shower instead of bath (eco ✓)', co2:-2, xp:10},
+  ],
+  shopping:[
+    {label:'Bought new clothing item',           co2:30,  xp:0},
+    {label:'Bought second-hand item (eco ✓)',    co2:-10, xp:25},
+    {label:'Repaired instead of replacing (eco ✓)', co2:-15, xp:30},
+    {label:'Bought new electronics',             co2:70,  xp:0},
+  ],
+  positive:[
+    {label:'Planted a tree (eco ✓)',             co2:-50, xp:50},
+    {label:'Composted food waste (eco ✓)',       co2:-5,  xp:20},
+    {label:'Refused plastic bag (eco ✓)',        co2:-1,  xp:10},
+    {label:'Carpooled with others (eco ✓)',      co2:-20, xp:25},
+  ]
+};
+
+function save(){ localStorage.setItem('cm_state', JSON.stringify(S)); }
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+var homeInited=false, commInited=false, aiInited=false;
+
+function showPage(name, idx){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-tabs button').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-tabs button')[idx].classList.add('active');
+  if(name==='home'){ if(!homeInited){ initHome(); homeInited=true; } else { updateHomeStats(); } }
+  if(name==='tracker'){ initTracker(); }
+  if(name==='tips'){ initTips(); }
+  if(name==='community' && !commInited){ initCommunity(); commInited=true; }
+  if(name==='ai'){ initAI(); }
+}
+
+// ─── LEVEL SYSTEM ────────────────────────────────────────────────────────────
+function currentLevel(){
+  var total=0;
+  for(var i=0;i<LEVELS.length;i++){
+    total += LEVELS[i].max===Infinity ? 99999 : LEVELS[i].max;
+    if(S.xp < total || i===LEVELS.length-1) return i;
+  }
+  return LEVELS.length-1;
+}
+
+function levelProgress(){
+  var lv=currentLevel();
+  var prev=0;
+  for(var i=0;i<lv;i++) prev += LEVELS[i].max===Infinity ? 99999 : LEVELS[i].max;
+  var cur=S.xp-prev;
+  var max=LEVELS[lv].max===Infinity ? 9999 : LEVELS[lv].max;
+  return {pct:Math.min(100,Math.round(cur/(max-prev)*100)), cur:cur, max:max-prev, lv:lv};
+}
+
+function updateLevelUI(){
+  var lp=levelProgress();
+  var nm=LEVELS[lp.lv].name;
+  document.getElementById('nav-level').textContent=nm+' · '+S.xp+' XP';
+  var el=document.getElementById('lvl-name');
+  if(el){ el.textContent=nm; document.getElementById('lvl-xp').textContent=S.xp+' XP'; document.getElementById('lvl-next').textContent=lp.max-lp.cur+' XP to next level'; document.getElementById('xp-bar').style.width=lp.pct+'%'; }
+  var sl=document.getElementById('s-level');
+  if(sl){ sl.textContent=nm.split(' ')[0]; document.getElementById('s-level-name').textContent=LEVELS[lp.lv].label; document.getElementById('s-xp-disp').textContent=S.xp+' XP'; }
+}
+
+// ─── CALCULATOR ──────────────────────────────────────────────────────────────
+function calc(){
+  var vType = parseFloat(document.getElementById('vehicle').value)||0;
+  var km    = parseFloat(document.getElementById('km').value)||0;
+  var autoR = parseFloat(document.getElementById('auto').value)||0;
+  var metro = parseFloat(document.getElementById('metro').value)||0;
+  var fdom  = parseFloat(document.getElementById('fdom').value)||0;
+  var fint  = parseFloat(document.getElementById('fint').value)||0;
+  var stEF  = parseFloat(document.getElementById('state').value)||0.82;
+  var kwh   = parseFloat(document.getElementById('kwh').value)||0;
+  var fuel  = parseFloat(document.getElementById('fuel').value)||0.08;
+  var hsize = parseFloat(document.getElementById('hsize').value)||1;
+  var diet  = parseFloat(document.getElementById('diet').value)||0.7;
+  var fsrc  = parseFloat(document.getElementById('foodsrc').value)||0.85;
+  var cloth = parseFloat(document.getElementById('cloth').value)||0.45;
+  var elec  = parseFloat(document.getElementById('elec').value)||0.3;
+
+  var transport = (vType*km*52/1000000*1000) + (autoR*0.009*52) + (metro*0.001*52) + (fdom*0.18) + (fint*1.5);
+  var home      = ((kwh*stEF*12/1000)*hsize) + (fuel*hsize);
+  var food      = diet*fsrc*1.1;
+  var shop      = cloth+elec;
+  var total     = transport+home+food+shop;
+
+  S.footprint = {
+    total:     parseFloat(total.toFixed(2)),
+    transport: parseFloat(transport.toFixed(2)),
+    home:      parseFloat(home.toFixed(2)),
+    food:      parseFloat(food.toFixed(2)),
+    shop:      parseFloat(shop.toFixed(2))
+  };
+  save();
+
+  // Score
+  var score = Math.max(0, Math.min(100, Math.round(100 - (total*4))));
+  document.getElementById('r-total').textContent = total.toFixed(1);
+  document.getElementById('cm-score').textContent = score;
+  var pctRank = score>=80?'Top 10% of sustainable users':score>=60?'Above average sustainability':score>=40?'Near India average':'Focus on transport and diet';
+  document.getElementById('cm-score-pct').textContent = pctRank;
+  var grade = total<1.2?'Excellent 🌟 Well below India avg': total<1.9?'Below India average 🌱': total<3?'Near India average 🌿': total<5?'Above average ⚠️':'High — take action 🔴';
+  document.getElementById('r-grade').textContent = grade;
+
+  // Breakdown bars
+  var cats=['transport','home','food','shop'];
+  var vals=[transport,home,food,shop];
+  var colors=['#1B6B3A','#4DB87A','#D97706','#9CA3AF'];
+  var labels=['🚗 Transport','🏠 Home','🥗 Food','🛍️ Shopping'];
+  var mx = Math.max.apply(null,vals.concat([0.01]));
+  document.getElementById('breakdown-bars').innerHTML = cats.map(function(c,i){
+    return '<div class="bar-row"><span class="bar-lbl">'+labels[i]+'</span><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(vals[i]/mx*100)+'%;background:'+colors[i]+'"></div></div><span class="bar-val">'+vals[i].toFixed(2)+'t</span></div>';
+  }).join('');
+
+  // Carbon Twin
+  var bad5  = (total*5).toFixed(1);
+  var good5 = (total*0.45*5).toFixed(1);
+  var saved = ((total*5)-(total*0.45*5)).toFixed(1);
+  document.getElementById('twin-bad').textContent  = bad5;
+  document.getElementById('twin-good').textContent = good5;
+  document.getElementById('twin-bad-eq').textContent  = '≈ '+Math.round(total*5*500)+' km of driving';
+  document.getElementById('twin-good-eq').textContent = '≈ '+Math.round(total*0.45*5*22)+' trees planted';
+  document.getElementById('twin-savings').innerHTML = '<div style="font-size:12px;color:var(--tx3);margin-bottom:4px;">Potential savings over 5 years</div><div style="font-family:Sora,sans-serif;font-size:28px;font-weight:800;color:var(--g);">'+saved+' tonnes CO₂</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">= '+Math.round(saved*1000/22)+' trees worth of absorption</div>';
+
+  // Roadmap
+  var bigIdx = vals.indexOf(Math.max.apply(null,vals));
+  var bigCat = cats[bigIdx];
+  document.getElementById('roadmap').innerHTML = getRoadmap(bigCat).map(function(w){
+    return '<div class="roadmap-week"><h4>Week '+w.week+': '+w.theme+'</h4>'+w.actions.map(function(a){
+      return '<div class="roadmap-item"><div class="r-dot"></div><div class="r-text">'+a.text+'</div><div class="r-save">'+a.save+'</div></div>';
+    }).join('')+'</div>';
+  }).join('');
+
+  // Personalised tips
+  var tips=[];
+  if(transport>total*0.35) tips.push('🚗 Transport is your biggest opportunity. Switching to metro or electric scooter saves ~150–250 kg/year and ₹20,000+ in fuel costs.');
+  if(home>0.8) tips.push('💡 Your home energy is above median. Set AC to 24°C and switch to BEE 5-star appliances — saves ~80 kg and ₹3,000/year.');
+  if(food>0.9)  tips.push('🥗 Adding 2 meat-free days per week reduces your food footprint by ~25%. South Indian vegetarian meals are among the world\'s lowest-carbon cuisines.');
+  if(shop>0.6)  tips.push('🛍️ Repair electronics before replacing — Cashify and local repair shops in India make this easy. Saves ~70 kg per device kept.');
+  if(total<1.5) tips.push('🌟 You\'re well below India average! You\'re already in the top 20% of sustainable users. Share your habits to inspire others.');
+  document.getElementById('pers-tips').innerHTML = tips.map(function(t){
+    return '<div style="padding:10px 14px;background:var(--gl);border-radius:var(--rs);font-size:13px;color:var(--tx2);margin-bottom:8px;line-height:1.55;">'+t+'</div>';
+  }).join('');
+}
+
+function getRoadmap(biggest){
+  var plans = {
+    transport:[
+      {text:'Switch your 2 longest car journeys each week to metro or city bus',      save:'~30 kg CO₂'},
+      {text:'Try cycling for every trip under 3 km — many Indian cities have bike lanes', save:'~15 kg CO₂'},
+    ],
+    home:[
+      {text:'Set AC temperature to 24°C instead of 18–20°C (saves 6% per degree)',    save:'~12 kg CO₂'},
+      {text:'Wash all clothes on cold cycle and air-dry instead of machine drying',     save:'~8 kg CO₂'},
+    ],
+    food:[
+      {text:'Skip meat on Monday and Wednesday this week — try rajma or dal makhani',   save:'~20 kg CO₂'},
+      {text:'Buy vegetables from local sabzi mandi — lower transport and packaging',    save:'~5 kg CO₂'},
+    ],
+    shop:[
+      {text:'Before buying new electronics, check what can be repaired at local shops', save:'~15 kg CO₂'},
+      {text:'Sell or donate old devices via OLX or Cashify instead of discarding them', save:'~10 kg CO₂'},
+    ]
+  };
+  return [
+    {week:1, theme:'Foundation — Know Your Biggest Source', actions:plans[biggest]},
+    {week:2, theme:'Food Choices', actions:plans.food},
+    {week:3, theme:'Transport & Commute', actions:plans.transport},
+    {week:4, theme:'Home Energy & Shopping', actions:[plans.home[0], plans.shop[0]]},
+  ];
+}
+
+// ─── HOME ─────────────────────────────────────────────────────────────────────
+var hcharts = {};
+
+function initHome(){
+  updateHomeStats();
+  renderHomeCharts();
+  renderInsights();
+}
+
+function updateHomeStats(){
+  document.getElementById('h-days').textContent   = S.daysLogged;
+  var saved = S.log.filter(function(l){return l.co2<0;}).reduce(function(a,l){return a+Math.abs(l.co2);},0);
+  document.getElementById('h-saved').textContent  = saved+' kg';
+  document.getElementById('h-streak').textContent = S.streak+'🔥';
+  document.getElementById('h-score').textContent  = S.xp;
+  var month = S.log.slice(0,30).reduce(function(a,l){return a+Math.max(0,l.co2);},0);
+  document.getElementById('s-month').textContent  = month||'—';
+  document.getElementById('s-annual').textContent = S.footprint.total||'—';
+  document.getElementById('s-actions').textContent= S.actionsCount;
+  updateLevelUI();
+}
+
+function renderHomeCharts(){
+  if(hcharts.trend)  hcharts.trend.destroy();
+  if(hcharts.donut)  hcharts.donut.destroy();
+  var base = S.footprint.total||2.1;
+  var trend = [base*1.35,base*1.25,base*1.18,base*1.08,base*1.02,base].map(function(v){return parseFloat((v*100).toFixed(0));});
+  hcharts.trend = new Chart(document.getElementById('trendChart'),{
+    type:'line',
+    data:{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{label:'kg CO₂',data:trend,borderColor:'#1B6B3A',backgroundColor:'rgba(27,107,58,.08)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#1B6B3A',tension:.4,fill:true}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}
+  });
+  var fp=S.footprint;
+  var dlabels=['Transport','Home','Food','Shopping'];
+  var dvals=[fp.transport,fp.home,fp.food,fp.shop];
+  var dcolors=['#1B6B3A','#4DB87A','#D97706','#9CA3AF'];
+  hcharts.donut = new Chart(document.getElementById('donutChart'),{
+    type:'doughnut',
+    data:{labels:dlabels,datasets:[{data:dvals,backgroundColor:dcolors,borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}
+  });
+  document.getElementById('donut-legend').innerHTML = dlabels.map(function(l,i){
+    return '<span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--tx2);"><span style="width:10px;height:10px;border-radius:2px;background:'+dcolors[i]+';display:inline-block;"></span>'+l+' '+dvals[i].toFixed(1)+'t</span>';
+  }).join('');
+}
+
+function renderInsights(){
+  var fp=S.footprint;
+  document.getElementById('home-insights').innerHTML=[
+    {cls:'ins-green',icon:'🚗',title:fp.transport>0.8?'Transport is your top opportunity':'Transport is well managed',body:fp.transport>0.8?'Your transport adds '+fp.transport.toFixed(1)+'t CO₂/year. Switching 2 car trips/week to metro or cycling could save ~200 kg/year — equal to not burning 90 litres of petrol.':'Your transport footprint is lean. Keep using public transit and cycling for short trips!'},
+    {cls:'ins-amber',icon:'💡',title:'Home energy opportunity',body:'At '+fp.home.toFixed(1)+'t, '+(fp.home>0.8?'your home energy is above the India median. ':'you are near the India median. ')+'Setting AC to 24°C and switching to BEE 5-star appliances saves ₹3,000/year alongside reducing your carbon.'},
+    {cls:'ins-blue',icon:'🥗',title:fp.food<0.6?'Great food choices!':'Diet changes have big impact',body:fp.food<0.6?'Your plant-based diet puts your food footprint well below average. Traditional South Indian vegetarian food is among the world\'s lowest-carbon cuisines.':'Adding 2 vegetarian days per week reduces your food footprint by ~25% and supports local farmers.'},
+  ].map(function(i){return '<div class="ins-card '+i.cls+'"><h4 style="font-size:14px;font-weight:600;margin-bottom:5px;">'+i.icon+' '+i.title+'</h4><p style="font-size:13px;color:var(--tx2);line-height:1.6;">'+i.body+'</p></div>';}).join('');
+}
+
+// ─── TRACKER ──────────────────────────────────────────────────────────────────
+var wChart=null;
+
+function initTracker(){
+  document.getElementById('ldate').value = new Date().toISOString().split('T')[0];
+  updateActs();
+  renderLogTable();
+  renderBadges();
+  renderChallenges();
+  renderWeekChart();
+  updateLevelUI();
+}
+
+function updateActs(){
+  var cat=document.getElementById('lcat').value;
+  document.getElementById('lact').innerHTML = ACT_MAP[cat].map(function(a){
+    return '<option value="'+JSON.stringify(a).replace(/"/g,'&quot;')+'">'+a.label+'</option>';
+  }).join('');
+}
+
+function logAct(){
+  var cat=document.getElementById('lcat').value;
+  var act=JSON.parse(document.getElementById('lact').value);
+  var date=document.getElementById('ldate').value;
+  S.log.unshift({cat:cat, act:act.label, co2:act.co2, xp:act.xp, date:date});
+  S.daysLogged++;
+  if(act.co2<=0) S.actionsCount++;
+  S.xp+=act.xp;
+  S.streak++;
+  save();
+  renderLogTable();
+  renderWeekChart();
+  renderBadges();
+  updateLevelUI();
+  if(homeInited){ updateHomeStats(); }
+  toast('Logged! +'+act.xp+' XP');
+}
+
+function renderLogTable(){
+  document.getElementById('log-tbody').innerHTML = (S.log.slice(0,8)).map(function(l){
+    var neg=l.co2<0;
+    var color=neg?'var(--g)':l.co2>50?'var(--rd)':'var(--am)';
+    return '<tr><td><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:'+color+';margin-right:6px;"></span>'+l.act+'</td><td style="color:var(--tx3);">'+l.date+'</td><td style="font-weight:600;color:'+color+'">'+(neg?'':'+')+''+l.co2+' kg</td><td style="color:var(--g);font-weight:600;">+'+l.xp+'</td></tr>';
+  }).join('')||'<tr><td colspan="4" style="color:var(--tx3);padding:16px;text-align:center;">No activities logged yet — start above!</td></tr>';
+}
+
+function renderWeekChart(){
+  var ctx=document.getElementById('weekChart');
+  if(wChart) wChart.destroy();
+  var days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var data=days.map(function(_,i){ var d=S.log.slice(0,7)[6-i]; return d?Math.max(0,d.co2):0; });
+  wChart=new Chart(ctx,{
+    type:'bar',
+    data:{labels:days,datasets:[{label:'kg CO₂',data:data,backgroundColor:data.map(function(v){return v>50?'#DC2626':v>0?'#1B6B3A':'#4DB87A';}),borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}
+  });
+}
+
+function renderBadges(){
+  document.getElementById('badge-grid').innerHTML = BADGES.map(function(b){
+    var earned=b.cond(S);
+    return '<div class="badge-item '+(earned?'earned':'locked')+'"><div class="bi">'+b.icon+'</div><div class="bn">'+b.name+'</div><div class="bd2">'+(earned?'✓ Earned':b.desc)+'</div></div>';
+  }).join('');
+}
+
+function renderChallenges(){
+  document.getElementById('ch-grid').innerHTML = S.challenges.map(function(c,i){
+    var done=c.prog>=c.total;
+    return '<div class="ch-card"><div class="ch-head"><h4 style="font-size:13px;font-weight:600;">'+c.icon+' '+c.title+'</h4><span class="badge2 '+(c.diff==='Easy'?'b-green':c.diff==='Medium'?'b-amber':'b-red')+'">'+c.diff+'</span></div><p style="font-size:12px;color:var(--tx2);margin-bottom:6px;">'+c.desc+'</p><div style="font-size:11px;color:var(--tx3);">'+c.prog+'/'+c.total+' · +'+c.xp+' XP on complete</div><div class="prog-track"><div class="prog-fill" style="width:'+Math.round(c.prog/c.total*100)+'%;"></div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;"><span style="font-size:11px;color:var(--tx3);">'+Math.round(c.prog/c.total*100)+'% done</span><button class="ch-btn" '+(done?'disabled':'')+' onclick="progChallenge('+i+')">'+(done?'✓ Done':'+ Progress')+'</button></div></div>';
+  }).join('');
+}
+
+function progChallenge(i){
+  if(S.challenges[i].prog<S.challenges[i].total){
+    S.challenges[i].prog++;
+    if(S.challenges[i].prog>=S.challenges[i].total){ S.xp+=S.challenges[i].xp; toast('🎉 Challenge complete! +'+S.challenges[i].xp+' XP'); }
+    else toast('Progress saved!');
+    save(); renderChallenges(); updateLevelUI();
+  }
+}
+
+// ─── AI COACH ─────────────────────────────────────────────────────────────────
+var SUGGESTIONS = [
+  'How can I reduce my transport emissions?',
+  'I travel 30km daily by car — what should I do?',
+  'Is South Indian vegetarian diet eco-friendly?',
+  'How do I switch to solar in Hyderabad?',
+  'Give me a personalised weekly eco plan',
+  'What is the biggest carbon source in India?',
+];
+
+var chatHistory = [];
+
+function initAI(){
+  if(aiInited) return;
+  aiInited=true;
+  document.getElementById('chat-sugs').innerHTML = SUGGESTIONS.map(function(s){
+    return '<button class="sug-btn" onclick="sendSug(this.textContent)">'+s+'</button>';
+  }).join('');
+  addAIMsg('Hi! I\'m your AI Carbon Coach 🌱\n\nI can see your footprint data: '+S.footprint.total+'t CO₂/year (India avg: 1.9t). Ask me anything about reducing your environmental impact in India — transport, diet, home energy, or a personalised plan.\n\nChoose a suggestion above or type your question.');
+  renderAIProfile();
+  document.getElementById('quick-actions').innerHTML = [
+    'Generate my personalised 30-day reduction plan',
+    'How does my footprint compare to India average?',
+    'What single change would cut my footprint the most?',
+    'Best eco habits for daily life in India',
+  ].map(function(a){
+    return '<button class="btn btn-outline" style="text-align:left;font-size:12px;padding:10px 14px;justify-content:flex-start;" onclick="sendSug(this.textContent)">'+a+'</button>';
+  }).join('');
+  document.getElementById('ai-status-bar').innerHTML = '<div class="ai-status live"><div class="ai-dot green"></div>AI-powered sustainability coaching — intelligent recommendation engine active</div>';
+}
+
+function renderAIProfile(){
+  var fp=S.footprint;
+  document.getElementById('ai-profile').innerHTML =
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'+
+    [['Total Annual',fp.total+'t'],['Transport',fp.transport+'t'],['Home Energy',fp.home+'t'],['Food & Diet',fp.food+'t']].map(function(r){
+      return '<div style="background:var(--sf2);border-radius:var(--rs);padding:10px;border:1px solid var(--bd);"><div style="font-size:11px;color:var(--tx3);">'+r[0]+'</div><div style="font-family:Sora,sans-serif;font-size:18px;font-weight:700;color:var(--g);">'+r[1]+'</div></div>';
+    }).join('')+'</div>'+
+    '<div style="margin-top:10px;padding:10px 12px;background:var(--sf2);border-radius:var(--rs);border:1px solid var(--bd);font-size:12px;color:var(--tx2);">India avg: 1.9t · You are <strong style="color:'+(S.footprint.total>1.9?'var(--rd)':'var(--g)')+';">'+(S.footprint.total>1.9?'above':'below')+' average</strong></div>';
+}
+
+function addAIMsg(text, isError){
+  var d=document.getElementById('chat-msgs');
+  var el=document.createElement('div');
+  el.className='msg msg-ai'+(isError?' msg-err':'');
+  el.style.whiteSpace='pre-wrap';
+  el.textContent=text;
+  d.appendChild(el);
+  d.scrollTop=d.scrollHeight;
+}
+
+function addUserMsg(text){
+  var d=document.getElementById('chat-msgs');
+  var el=document.createElement('div');
+  el.className='msg msg-user';
+  el.textContent=text;
+  d.appendChild(el);
+  d.scrollTop=d.scrollHeight;
+}
+
+function addTyping(){
+  var d=document.getElementById('chat-msgs');
+  var el=document.createElement('div');
+  el.className='msg msg-ai';
+  el.id='typing-indicator';
+  el.innerHTML='<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+  el.style.padding='14px 16px';
+  d.appendChild(el);
+  d.scrollTop=d.scrollHeight;
+  return el;
+}
+
+function sendSug(t){ document.getElementById('chat-in').value=t; sendMsg(); }
+
+function generateLocalEcoAdvice(msg, fp){
+  var m=msg.toLowerCase();
+  if(m.indexOf('transport')>=0||m.indexOf('car')>=0||m.indexOf('commut')>=0||m.indexOf('driv')>=0||m.indexOf('bike')>=0||m.indexOf('scooter')>=0){
+    return 'For transport in India, the highest-impact switch is from a petrol car to metro/bus for daily commute. In cities like Hyderabad, Bangalore, or Delhi, metro emits ~6x less CO₂/km than a petrol car.\n\nYour transport footprint is '+fp.transport+'t/year. To cut this:\n• Switch 2 car trips/week to metro: saves ~150 kg/year\n• Use electric two-wheelers (Ola S1, Ather 450, TVS iQube) for short trips\n• Carpool via QuickRide for office commutes\n• Walk for all trips under 1.5 km\n\nThese 4 steps combined could reduce your transport emissions by 35–50%.';
+  }
+  if(m.indexOf('diet')>=0||m.indexOf('food')>=0||m.indexOf('veg')>=0||m.indexOf('meat')>=0||m.indexOf('meal')>=0){
+    return 'Your diet footprint is '+fp.food+'t/year. South Indian vegetarian food is already among the world\'s lowest-carbon cuisines — congrats if that\'s your diet! 🌱\n\nKey food changes by impact:\n1. Skip meat 2 days/week: saves ~60 kg CO₂/year\n2. Buy from local sabzi mandis vs supermarkets: saves ~70 kg\n3. Reduce food waste with meal planning: saves ~100 kg\n4. Choose lentils/legumes as protein over dairy\n\nIndia avg food footprint: 0.7t — below the global average of 1.8t.';
+  }
+  if(m.indexOf('solar')>=0||m.indexOf('energy')>=0||m.indexOf('electric')>=0||m.indexOf('ac')>=0||m.indexOf('home')>=0||m.indexOf('appliance')>=0){
+    return 'Great question about home energy! Your home footprint is '+fp.home+'t/year.\n\nIn Hyderabad/Telangana:\n• PM Surya Ghar Yojana offers up to ₹78,000 subsidy for 3kW rooftop solar\n• TSSPDCL net metering lets you sell excess power back to the grid\n• A 3kW system saves ~700 kg CO₂/year + cuts electricity bills by ₹15,000+/year\n\nSmaller wins:\n• AC at 24°C (not 18°C): saves ~120 kg/year\n• BEE 5-star appliances cut energy use 30–40%\n• LED lights use 75% less energy than incandescent';
+  }
+  if(m.indexOf('plan')>=0||m.indexOf('week')>=0||m.indexOf('30 day')>=0||m.indexOf('roadmap')>=0||m.indexOf('routine')>=0){
+    return 'Here\'s your personalised 4-week reduction plan based on your '+fp.total+'t footprint:\n\nWeek 1 — Measure: Log every activity to identify your biggest sources.\nWeek 2 — Food: Try 2 meat-free days (rajma, dal, sabzi). Shop at your local sabzi mandi.\nWeek 3 — Transport: Replace 2 car trips with metro or cycling. Walk for trips under 1.5 km.\nWeek 4 — Home: Set AC to 24°C. Audit appliances for BEE star ratings.\n\nExpected savings: 25–35% reduction in your footprint over 30 days. Ready to start with Week 1?';
+  }
+  if(m.indexOf('compar')>=0||m.indexOf('india')>=0||m.indexOf('average')>=0||m.indexOf('benchmark')>=0){
+    return 'Here\'s how your footprint ('+fp.total+'t) stacks up:\n\n🇮🇳 India average: 1.9t\n🌍 World average: 4.7t\n🇺🇸 USA average: 14.5t\n🇪🇺 EU average: 6.4t\n🎯 Paris 2050 target: 2.0t\n\nYou are '+(fp.total<=2.0?'✅ already at or below the Paris 2050 target — outstanding! You are in the top 20% of sustainable Indians.':'⚠️ above the Paris 2050 target of 2.0t. Focusing on transport and diet alone could get you there within a year.')+'\n\nKeep logging your activities to track your progress!';
+  }
+  if(m.indexOf('shopping')>=0||m.indexOf('cloth')>=0||m.indexOf('phone')>=0||m.indexOf('electron')>=0||m.indexOf('buy')>=0){
+    return 'Your shopping footprint is '+fp.shop+'t/year. In India, the circular economy is easy to access:\n\n• Second-hand clothes: Flyrobe, Spoyl, OLX Fashion\n• Refurbished electronics: Cashify, Renewed (Amazon)\n• Repair culture: local mobile repair shops, Jeeves for appliances\n• Before buying new, ask: can this be repaired or borrowed?\n\nKeeping your smartphone 1 extra year saves ~70 kg CO₂. Buying second-hand clothing instead of new saves ~120 kg/year.\n\nShopping mindfully is one of the easiest changes with zero lifestyle sacrifice!';
+  }
+  if(m.indexOf('biggest')>=0||m.indexOf('most impact')>=0||m.indexOf('single')>=0||m.indexOf('top')>=0||m.indexOf('best')>=0){
+    var biggest = 'transport';
+    var bigVal = fp.transport;
+    if(fp.home>bigVal){ biggest='home energy'; bigVal=fp.home; }
+    if(fp.food>bigVal){ biggest='food & diet'; bigVal=fp.food; }
+    if(fp.shop>bigVal){ biggest='shopping'; bigVal=fp.shop; }
+    return 'Your single biggest opportunity is 🎯 '+biggest+' at '+bigVal+'t CO₂/year.\n\nFor maximum impact:\n• Transport: switch to metro or EV two-wheeler for daily commute\n• Home energy: rooftop solar (PM Surya Ghar Yojana) + AC at 24°C\n• Food: 2 meat-free days/week + local sabzi mandi shopping\n• Shopping: repair before replacing, buy second-hand via Cashify/OLX\n\nFocusing on '+biggest+' alone could cut your footprint by 20–30% in one year!';
+  }
+  // Default personalised response
+  return 'Based on your profile ('+fp.total+'t CO₂/year vs India avg 1.9t), your top 3 opportunities are:\n\n1. 🚗 Transport ('+fp.transport+'t) — switch to metro or EV two-wheeler for your commute\n2. 🏠 Home energy ('+fp.home+'t) — set AC to 24°C, explore rooftop solar via PM Surya Ghar\n3. 🥗 Food choices ('+fp.food+'t) — 2 vegetarian days/week saves ~60 kg CO₂\n\nCombined, these changes could reduce your footprint by 30–40% in one year. Which area would you like to explore further?';
+}
+
+function sendMsg(){
+  var inp=document.getElementById('chat-in');
+  var msg=inp.value.trim();
+  if(!msg) return;
+  inp.value='';
+  addUserMsg(msg);
+  chatHistory.push({role:'user',content:msg});
+  var typingEl=addTyping();
+  setTimeout(function(){
+    typingEl.remove();
+    var reply = generateLocalEcoAdvice(msg, S.footprint);
+    addAIMsg(reply);
+    chatHistory.push({role:'assistant',content:reply});
+  }, 700);
+}
+
+// ─── TIPS ─────────────────────────────────────────────────────────────────────
+var TIPS = [
+  {cat:'transport',icon:'⚡',bg:'green',title:'Switch to electric two-wheeler',desc:'Ola S1, Ather 450, TVS iQube cut emissions 60–70% vs petrol bikes. Running cost is ~₹0.5/km vs ₹3/km for petrol.',impact:'Save ~400 kg CO₂/year',score:400},
+  {cat:'transport',icon:'🚇',bg:'green',title:'Metro for daily commute',desc:'Hyderabad and Delhi Metro emit ~6x less CO₂/km than a petrol car. Monthly pass also saves ₹1,500–3,000 vs fuel.',impact:'Save ~280 kg CO₂/year',score:280},
+  {cat:'transport',icon:'🚲',bg:'green',title:'Cycle for trips under 4 km',desc:'Short car trips have the highest emissions per km. Cycling saves fuel, reduces parking stress, and adds exercise.',impact:'Save ~150 kg CO₂/year',score:150},
+  {cat:'transport',icon:'🚄',bg:'green',title:'Train over short-haul flights',desc:'Mumbai–Delhi train emits 10x less CO₂ than flying the same route. Rajdhani Express is often faster than travel time to airport.',impact:'Save ~150 kg CO₂/trip',score:150},
+  {cat:'transport',icon:'🚗',bg:'amber',title:'Carpool via QuickRide or BlaBlaCar',desc:'Carpooling halves per-km emissions. QuickRide is widely used for office commutes in Hyderabad and Bangalore.',impact:'Save ~200 kg CO₂/year',score:200},
+  {cat:'home',icon:'☀️',bg:'green',title:'Rooftop solar — PM Surya Ghar Yojana',desc:'Government offers up to ₹78,000 subsidy for a 3kW system. Net metering lets you sell excess power back to your DISCOM.',impact:'Save ~700 kg CO₂/year',score:700},
+  {cat:'home',icon:'❄️',bg:'amber',title:'Set AC to 24°C — BEE recommendation',desc:'Each degree cooler increases AC energy 6%. MNRE recommends 24°C as the ideal balance of comfort and efficiency.',impact:'Save ~120 kg CO₂/year',score:120},
+  {cat:'home',icon:'💡',bg:'green',title:'Replace all bulbs with BEE 5-star LEDs',desc:'LEDs use 75% less energy than incandescent. UJALA scheme and some DISCOMs offer subsidised LEDs — check your local office.',impact:'Save ~60 kg CO₂/year',score:60},
+  {cat:'food',icon:'🥗',bg:'green',title:'South Indian vegetarian diet',desc:'Traditional South Indian meals — dal, sambar, rasam, sabzi — have among the lowest carbon footprints of any cuisine worldwide.',impact:'Save ~300 kg CO₂/year',score:300},
+  {cat:'food',icon:'🛒',bg:'green',title:'Shop at local sabzi mandis',desc:'Local seasonal vegetables avoid long cold chains and excessive packaging. Mandis are cheaper and greener than supermarket chains.',impact:'Save ~70 kg CO₂/year',score:70},
+  {cat:'food',icon:'🌱',bg:'green',title:'Meal planning to reduce food waste',desc:'India wastes ~68 million tonnes of food per year. Planning meals for the week cuts waste-related methane emissions significantly.',impact:'Save ~100 kg CO₂/year',score:100},
+  {cat:'shopping',icon:'👕',bg:'amber',title:'Second-hand clothing platforms',desc:'Flyrobe, Spoyl, and OLX Fashion make circular fashion easy in India — quality clothes at lower cost with far lower emissions.',impact:'Save ~120 kg CO₂/year',score:120},
+  {cat:'shopping',icon:'📱',bg:'amber',title:'Keep your phone for 3+ years',desc:'Manufacturing a smartphone produces 70+ kg CO₂. India has a strong repair culture and Cashify for quality refurbished devices.',impact:'Save ~70 kg CO₂/device',score:70},
+];
+
+function initTips(){
+  var cats=['all','transport','home','food','shopping'];
+  document.getElementById('tip-filters').innerHTML = cats.map(function(c,i){
+    return '<button class="btn '+(c==='all'?'btn-green':'btn-outline')+' btn-sm" onclick="filterTips(\''+c+'\',this)">'+(c==='all'?'All':c==='transport'?'🚗 Transport':c==='home'?'🏠 Home':c==='food'?'🥗 Food':'🛍️ Shopping')+'</button>';
+  }).join('');
+  renderTips('all');
+}
+
+function filterTips(cat,btn){
+  renderTips(cat);
+  document.querySelectorAll('#tip-filters .btn').forEach(function(b){ b.className='btn btn-outline btn-sm'; });
+  btn.className='btn btn-green btn-sm';
+}
+
+function renderTips(cat){
+  var filtered = cat==='all'?TIPS:TIPS.filter(function(t){return t.cat===cat;});
+  filtered.sort(function(a,b){return b.score-a.score;});
+  document.getElementById('tips-grid').innerHTML = filtered.map(function(t){
+    return '<div class="tip-card"><div class="tip-icon '+t.bg+'">'+t.icon+'</div><div><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px;">'+t.title+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;">'+t.desc+'</div><span class="tip-impact">'+t.impact+'</span></div></div>';
+  }).join('');
+}
+
+// ─── COMMUNITY ───────────────────────────────────────────────────────────────
+var LB = [
+  {nm:'Priya S.',    ini:'PS', city:'Hyderabad', saved:320, ch:'+12'},
+  {nm:'Marco T.',   ini:'MT', city:'Bangalore',  saved:290, ch:'+8'},
+  {nm:'Aisha B.',   ini:'AB', city:'Chennai',    saved:275, ch:'-3'},
+  {nm:'You',        ini:'YO', city:'Hyderabad',  saved:0,   ch:'+'+S.xp, isUser:true},
+  {nm:'Chen W.',    ini:'CW', city:'Pune',       saved:230, ch:'+5'},
+  {nm:'Fatima K.',  ini:'FK', city:'Mumbai',     saved:218, ch:'-1'},
+  {nm:'James O.',   ini:'JO', city:'Delhi',      saved:205, ch:'+7'},
+];
+
+var FEED = [
+  {u:'Priya S.',  a:'completed the Car-Free Week challenge 🚲',                   t:'2 hours ago'},
+  {u:'Aisha B.',  a:'switched to rooftop solar via PM Surya Ghar Yojana ☀️',      t:'5 hours ago'},
+  {u:'Chen W.',   a:'cycled 45 km this week instead of driving 🚴',               t:'Yesterday'},
+  {u:'Marco T.',  a:'logged 5 vegetarian meals this week 🥗',                     t:'Yesterday'},
+  {u:'James O.',  a:'planted 5 trees via ITC Green initiative 🌳',                t:'2 days ago'},
+];
+
+var impKg=2847;
+
+function initCommunity(){
+  LB[3].saved = Math.max(50, S.log.filter(function(l){return l.co2<0;}).reduce(function(a,l){return a+Math.abs(l.co2);},0));
+  var sortedLB = LB.slice().sort(function(a,b){return b.saved-a.saved;});
+  var medals=['🥇','🥈','🥉'];
+  document.getElementById('leaderboard').innerHTML = sortedLB.map(function(u,i){
+    return '<div class="lb-row" style="'+(u.isUser?'background:var(--gl);':'')+'"><div class="lb-rank" style="color:'+(i<3?['#D97706','#6B7280','#92400E'][i]:'var(--tx3)')+';">'+(i<3?medals[i]:i+1)+'</div><div class="lb-avatar" style="'+(u.isUser?'background:var(--g);color:#fff;':'')+'">'+u.ini+'</div><div class="lb-name">'+u.nm+'<div style="font-size:11px;color:var(--tx3);">'+u.city+'</div></div><div><span class="lb-score">'+u.saved+' kg</span><span style="font-size:11px;margin-left:5px;color:'+(u.ch.charAt(0)==='-'?'var(--rd)':'var(--g)')+';">'+u.ch+'</span></div></div>';
+  }).join('');
+  document.getElementById('comm-feed').innerHTML = FEED.map(function(f){
+    var ini=f.u.split(' ').map(function(w){return w[0];}).join('');
+    return '<div style="padding:10px 0;border-bottom:1px solid var(--bd);display:flex;gap:10px;align-items:flex-start;"><div style="width:30px;height:30px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--g);flex-shrink:0;">'+ini+'</div><div><span style="font-weight:600;font-size:12px;">'+f.u+'</span><span style="font-size:12px;color:var(--tx2);"> '+f.a+'</span><div style="font-size:11px;color:var(--tx3);margin-top:1px;">'+f.t+'</div></div></div>';
+  }).join('');
+  new Chart(document.getElementById('indiaChart'),{
+    type:'bar',
+    data:{
+      labels:['You','India avg','World avg','USA avg','EU avg','Paris 2050'],
+      datasets:[{data:[S.footprint.total,1.9,4.7,14.5,6.4,2.0],backgroundColor:['#1B6B3A','#4DB87A','#D97706','#DC2626','#9CA3AF','#1B6B3A'],borderRadius:6,borderSkipped:false}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return v+'t';},font:{size:10}}},x:{ticks:{font:{size:10}}}}}
+  });
+  document.getElementById('imp-kg').textContent = impKg.toLocaleString('en-IN');
+  setInterval(function(){ impKg+=Math.floor(Math.random()*4+1); document.getElementById('imp-kg').textContent=impKg.toLocaleString('en-IN'); }, 1800);
+}
+
+// ─── PDF REPORT ───────────────────────────────────────────────────────────────
+function downloadReport(){
+  var fp=S.footprint;
+  var score=Math.max(0,Math.min(100,Math.round(100-(fp.total*4))));
+  var lp=levelProgress();
+  var report =
+'╔══════════════════════════════════════════════════════╗\n'+
+'║        CARBONMIRROR AI — SUSTAINABILITY REPORT       ║\n'+
+'╚══════════════════════════════════════════════════════╝\n'+
+'Generated: '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+'\n\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'CARBON FOOTPRINT SUMMARY\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'Total Annual Footprint:   '+fp.total+' tonnes CO₂e\n'+
+'  Transport:              '+fp.transport+'t  ('+Math.round(fp.transport/fp.total*100)+'%)\n'+
+'  Home Energy:            '+fp.home+'t  ('+Math.round(fp.home/fp.total*100)+'%)\n'+
+'  Food & Diet:            '+fp.food+'t  ('+Math.round(fp.food/fp.total*100)+'%)\n'+
+'  Shopping:               '+fp.shop+'t  ('+Math.round(fp.shop/fp.total*100)+'%)\n\n'+
+'CarbonMirror Score:       '+score+' / 100\n\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'BENCHMARKS\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'Your footprint:      '+fp.total+'t\n'+
+'India average:       1.9t\n'+
+'World average:       4.7t\n'+
+'Paris 2050 target:   2.0t\n'+
+'Status:              '+(fp.total<=2.0?'✓ Below Paris 2050 target':'⚠ Above Paris target — action needed')+'\n\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'CARBON TWIN — 5-YEAR PROJECTION\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'Current habits path:    '+(fp.total*5).toFixed(1)+' tonnes CO₂ over 5 years\n'+
+'Green path (plan):      '+(fp.total*0.45*5).toFixed(1)+' tonnes CO₂ over 5 years\n'+
+'Potential saving:       '+(fp.total*5 - fp.total*0.45*5).toFixed(1)+' tonnes CO₂\n\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'30-DAY REDUCTION ROADMAP\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'Week 1 — Foundation\n'+
+'  • Identify and measure your biggest emission source\n'+
+'  • Log all activities for 7 days to build awareness\n\n'+
+'Week 2 — Food Choices\n'+
+'  • Try 2 meat-free days (rajma, dal, sabzi)\n'+
+'  • Buy vegetables from local sabzi mandi\n'+
+'  • Plan weekly meals to reduce food waste\n\n'+
+'Week 3 — Transport Shift\n'+
+'  • Replace 2 car trips with metro or cycling\n'+
+'  • Try carpooling via QuickRide for office\n'+
+'  • Walk for all trips under 1.5 km\n\n'+
+'Week 4 — Home Energy\n'+
+'  • Set AC to 24°C (saves Rs 2,000–4,000/year)\n'+
+'  • Check appliances for BEE 5-star rating\n'+
+'  • Repair one item instead of buying new\n\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'PROGRESS & GAMIFICATION\n'+
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'+
+'XP Earned:             '+S.xp+'\n'+
+'Level:                 '+LEVELS[currentLevel()].name+'\n'+
+'Activities Logged:     '+S.log.length+'\n'+
+'Day Streak:            '+S.streak+' days\n'+
+'Eco Actions:           '+S.actionsCount+'\n\n'+
+'═══════════════════════════════════════════════════════\n'+
+'Generated by CarbonMirror AI\n'+
+'"See the future impact of today\'s choices."\n'+
+'Built for Hack2Skills PromptWars · Main Challenge 3\n'+
+'═══════════════════════════════════════════════════════';
+  document.getElementById('report-content').textContent = report;
+  document.getElementById('pdf-modal').style.display='flex';
+}
+
+function doPrint(){
+  var content=document.getElementById('report-content').textContent;
+  var w=window.open('','_blank');
+  w.document.write('<html><head><title>CarbonMirror AI Report</title><style>body{font-family:monospace;padding:40px;max-width:700px;margin:auto;white-space:pre-wrap;font-size:13px;line-height:1.8;}@media print{body{padding:20px;}}</style></head><body>'+content+'</body></html>');
+  w.document.close();
+  w.print();
+}
+
+function copyReport(){
+  navigator.clipboard.writeText(document.getElementById('report-content').textContent).then(function(){
+    toast('Report copied to clipboard!');
+  });
+}
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); },2600);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+calc();
+initHome();
+homeInited=true;
+updateLevelUI();
+</script>
+</body>
+</html>
